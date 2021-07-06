@@ -117,7 +117,7 @@ function App() {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Amigoscode ©2021 Created by Maksat R.
+          Created by Maksat Rysbekov ©2021
         </Footer>
       </Layout>
     </Layout>
