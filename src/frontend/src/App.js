@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb, Table, Spin, Alert } from "antd";
+import { Layout, Menu, Breadcrumb, Table, Spin, Alert, Button } from "antd";
 import { useEffect, useState } from "react";
 
 import {
@@ -6,12 +6,15 @@ import {
   PieChartOutlined,
   FileOutlined,
   TeamOutlined,
+  PlusOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import "./App.css";
 import { getAllStudents } from "./client";
+import StudentDrawerForm from "./StudentDrawerForm";
 
 const { Header, Content, Footer, Sider } = Layout;
+
 const { SubMenu } = Menu;
 
 const columns = [
@@ -36,6 +39,7 @@ function App() {
   const [students, setStudents] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [showDrawer, setShowDrawer] = useState(false);
 
   const fetchStudents = () =>
     getAllStudents()
@@ -63,19 +67,34 @@ function App() {
         </Spin>
       );
     }
-    if (students.length <= 0) {
-      return "<Empty/>";
-    }
+
     return (
-      <Table
-        dataSource={students}
-        columns={columns}
-        rowKey={(student) => student.id}
-      />
+      <>
+        <StudentDrawerForm
+          showDrawer={showDrawer}
+          setShowDrawer={setShowDrawer}
+        />
+        <Table
+          dataSource={students}
+          columns={columns}
+          rowKey={(student) => student.id}
+          title={() => (
+            <Button
+              type="primary"
+              shape="round"
+              icon={<PlusOutlined />}
+              size="small"
+              onClick={() => setShowDrawer(!showDrawer)}
+            >
+              Add New Student
+            </Button>
+          )}
+        />
+      </>
     );
   };
 
-  if (students.length <= 0) return "<Empty/>";
+  // if (students.length <= 0) return "<Empty/>";
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
