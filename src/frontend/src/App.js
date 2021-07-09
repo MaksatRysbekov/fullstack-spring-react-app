@@ -116,7 +116,17 @@ function App() {
         console.log(data);
         setStudents(data);
         setFetching(false);
-      });
+      })
+      .catch((error) => {
+        console.log(error.response);
+        error.response.json().then((res) => {
+          errorNotification(
+            "There was an error",
+            `${res.message} statusCode:[${res.status}]`
+          );
+        });
+      })
+      .finally(() => setFetching(false));
 
   useEffect(() => {
     console.log("component is mounted");
