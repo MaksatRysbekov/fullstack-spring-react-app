@@ -15,10 +15,16 @@ public class StudentService {
     }
 
     public Student createStudent(Student student) {
+        if (studentRepository.existsByEmail(student.getEmail())) {
+            throw new RuntimeException("The email already taken!");
+        }
         return studentRepository.save(student);
     }
 
     public void deleteStudent(Long studentId) {
+        if (!studentRepository.existsById(studentId)) {
+            throw new RuntimeException("The student doesn't exists!");
+        }
         studentRepository.deleteById(studentId);
     }
 }
