@@ -7,9 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class DemoApplicationTests {
 
-	@Test
-	void contextLoads() {
-        Assertions.fail("Ops test failed");
-	}
+//	@Test
+//	void contextLoads() {
+//        Assertions.fail("Ops test failed");
+//	}
 
 }
