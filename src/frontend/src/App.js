@@ -45,13 +45,23 @@ const TheAvatar = ({ name }) => {
 };
 
 const removeStudent = (studentId, callback) => {
-  deleteStudent(studentId).then(() => {
-    successNotification(
-      "Student deleted",
-      `Student with ${studentId} was deleted`
-    );
-    callback();
-  });
+  deleteStudent(studentId)
+    .then(() => {
+      successNotification(
+        "Student deleted",
+        `Student with ${studentId} was deleted`
+      );
+      callback();
+    })
+    .catch((error) => {
+      console.log(error.response);
+      error.response.json().then((res) => {
+        errorNotification(
+          "There was an error",
+          `${res.message} statusCode:[${res.status}]`
+        );
+      });
+    });
 };
 
 const columns = (fetchStudents) => [
@@ -138,7 +148,25 @@ function App() {
       return <Spin indicator={antIcon} />;
     }
     if (students.length <= 0) {
-      return <Empty />;
+      return (
+        <>
+          <Button
+            onClick={() => setShowDrawer(!showDrawer)}
+            type="primary"
+            shape="round"
+            icon={<PlusOutlined />}
+            size="small"
+          >
+            <StudentDrawerForm
+              showDrawer={showDrawer}
+              setShowDrawer={setShowDrawer}
+              fetchStudents={fetchStudents}
+            />
+            Add New Student
+          </Button>
+          <Empty />
+        </>
+      );
     }
     return (
       <>
@@ -215,7 +243,7 @@ function App() {
             {renderStudents()}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>By Amigoscode</Footer>
+        <Footer style={{ textAlign: "center" }}>By Maksat Rysbekov</Footer>
       </Layout>
     </Layout>
   );
